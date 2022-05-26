@@ -2,8 +2,15 @@ import type { NextPage } from "next";
 import Head from "next/head";
 import Image from "next/image";
 import styles from "../styles/Home.module.css";
+import axios from "axios";
+import { useState, useEffect } from "react";
 
 const Home: NextPage = () => {
+  const [data, setData] = useState<any>([]);
+  useEffect(() => {
+    axios.get("/api/hello").then(({ data }) => setData(data));
+  }, []);
+  console.log(data);
   return (
     <div className={styles.container}>
       <Head>
@@ -12,7 +19,10 @@ const Home: NextPage = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <main className="text-3xl font-bold underline">Hello, World</main>
+      <main className="text-3xl font-bold underline">
+        <p>{data[0]?.title}</p>
+        <p>{data[0]?.description}</p>
+      </main>
     </div>
   );
 };
