@@ -11,9 +11,13 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse<Data>
 ) {
-  if (req.method === "GET") {
-    const result = await prisma.resource.findMany();
-    const formatedResult = JSON.parse(JSON.stringify(result));
-    res.status(200).json(formatedResult);
+  if (req.method === "POST") {
+    const data = req.body;
+    try {
+      await prisma.fruits.create({ data });
+      res.status(200).json({ name: "OK" });
+    } catch (e) {
+      res.status(200).json({ name: "OK" });
+    }
   }
 }

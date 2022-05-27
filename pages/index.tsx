@@ -4,13 +4,21 @@ import Image from "next/image";
 import styles from "../styles/Home.module.css";
 import axios from "axios";
 import { useState, useEffect } from "react";
+import { prisma } from "../lib/prisma";
 
-const Home: NextPage = () => {
-  const [data, setData] = useState<any>([]);
-  useEffect(() => {
-    axios.get("/api/hello").then(({ data }) => setData(data));
-  }, []);
-  console.log(data);
+export async function getServerSideProps() {
+  const fruits = await prisma.fruits.findMany();
+
+  return {
+    props: {
+      fruits: JSON.parse(JSON.stringify(fruits)),
+    },
+  };
+}
+type Props = {
+  fruits: { name: string; description: string }[];
+};
+const Home: NextPage<Props> = ({ fruits = [] }) => {
   return (
     <div className={styles.container}>
       <Head>
@@ -20,8 +28,14 @@ const Home: NextPage = () => {
       </Head>
 
       <main className="text-3xl font-bold underline">
-        <p>{data[0]?.title}</p>
-        <p>{data[0]?.description}</p>
+        {fruits.map((f, i) => (
+          <div key={i}>
+            <label>name</label>
+            <p>{f.name}</p>
+            <label>descricao</label>
+            <p>{f.description}</p>
+          </div>
+        ))}
       </main>
     </div>
   );

@@ -1,10 +1,10 @@
 -- CreateTable
-CREATE TABLE "Resources" (
+CREATE TABLE "Resource" (
     "id" TEXT NOT NULL,
-    "title" TEXT NOT NULL,
+    "name" TEXT NOT NULL,
     "description" TEXT NOT NULL,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
 
-    CONSTRAINT "Resources_pkey" PRIMARY KEY ("id")
+    CONSTRAINT "Resource_pkey" PRIMARY KEY ("id")
 );
